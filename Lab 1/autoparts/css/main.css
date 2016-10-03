@@ -1,6 +1,6 @@
 @font-face {
     font-family: MicraDiRegular;
-    src: url(/fonts/micradi_regular.ttf);
+    src: url(../fonts/micradi_regular.ttf);
 }
 
 html {
@@ -8,7 +8,7 @@ html {
 }
 
 body {
-    background-image: url(/images/bg.gif);
+    background-image: url(../images/bg.gif);
     display: flex;
     flex-direction: column;
     justify-content: space-around;
@@ -25,7 +25,7 @@ body {
 
 .header {
     border-radius: 15px;
-    background: url(/images/bg-topr.jpg) no-repeat right, url(/images/bg_header.gif) repeat-x 0;
+    background: url(../images/bg-topr.jpg) no-repeat right, url(../images/bg_header.gif) repeat-x 0;
     margin: 20px auto 30px;
     display: flex;
     justify-content: flex-start;
@@ -104,7 +104,7 @@ body {
     flex-direction: row;
     flex-wrap: nowrap;
     white-space: nowrap;
-    background: url(/images/bg-panel-header.gif) no-repeat left center;
+    background: url(../images/bg-panel-header.gif) no-repeat left center;
     padding: 10px 0px 10px 25px;
 }
 
@@ -186,7 +186,7 @@ body {
     color: #D2792B;
     font-weight: bold;
     text-decoration: none;
-    background: url(/images/cart.jpg) no-repeat left center;
+    background: url(../images/cart.jpg) no-repeat left center;
     padding: 15px 0 0 30px;
     height: 30px;
 }
@@ -223,13 +223,13 @@ body {
 
 .main-menu {
     border-radius: 15px;
-    background-image: url(/images/bgmenu.jpg);
+    background-image: url(../images/bgmenu.jpg);
     width: 300px;
     margin-bottom: 30px;
 }
 
 .main-menu>ul {
-    list-style-image: url(/images/bgm-active.gif);
+    list-style-image: url(../images/bgm-active.gif);
 }
 
 .main-menu>ul>li {
@@ -414,7 +414,7 @@ body {
         min-width: 500px;
     }
     .header {
-        background: url(/images/bg_header.gif) repeat-x 0;
+        background: url(../images/bg_header.gif) repeat-x 0;
     }
     .content-title {
         white-space: normal;

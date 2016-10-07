@@ -1,4 +1,4 @@
-﻿'use strict'
+'use strict'
 //1
 ////Разработайте функцию getType, которая принимает единственный параметр
 ////и возвращает тип этого параметра
@@ -16,9 +16,9 @@ function getType(operand) {
 
 function askForAge() {
     var age = prompt("Введите ваш возраст");
-
-    if (age === "")
-        return "Возраст не определен";
+    
+    age = parseFloat(age);
+    
     if (age < 18)
         return "до 18";
     else if (age >= 18 && age < 25)
@@ -63,7 +63,7 @@ function calcuateCharCount(char, str) {
 }
 
 function getCharCount(char, str) {
-    if (char === "") return (str.split(char[0]).length - 1);
+    if (char === "") return 0;
     return calcuateCharCount(char, str);
 }
 
@@ -106,17 +106,58 @@ function toHex(n) {
 //8
 ////Разработайте функцию getDecimal которая принимает 1 параметр - число плавающей точкой (например 1.25)
 ////и возвращает его дробную часть getDecimal(1.25)=0.25
+function getDecimal(num) {
+    var str = "" + num;    
+    var zeroPos = str.indexOf(".");
+    
+    if (zeroPos == -1) return 0;
+    str = str.slice(zeroPos);
+    
+    return +str;
+}
 
 //9
 ////fibonachi которая принимает число и возвращает ряд фибоначчи до этого числа в виде строки
 ////например для числа 10  результат "1,1,2,3,5,8"
-
+function fibonachi(n) {
+    var a = 1;
+    var b = 1;    
+    var result = "";
+    
+    var i = 3;
+    while(i < n) {
+        var c = a + b;
+        a = b;
+        i = b = c;
+                
+        if(result.length == 0)
+            result = "1" + "," + a;
+        else
+            result += "," + a;
+    }
+    
+    return result;
+}
 
 //10
 ////Разработайте функцию changeCase, которая принимает 1 аргумени 
 ////если аргумент не строка, то преобразует его в строку.
 ////в полученной строке заменяем регистр у каждого из символов
 ////Например changeCase("Строка") -- "сТРОКА"
+function changeCase(param) {
+    var sourceStr = param + "";
+    var result = "";
+    
+    var len = sourceStr.length;
+    for(var i = 0; i < len; i++) {
+        if(sourceStr[i] == sourceStr[i].toLowerCase())
+            result += sourceStr[i].toUpperCase();
+        else 
+            result += sourceStr[i].toLowerCase();
+    }
+    
+    return result;        
+}
 
 
 //11

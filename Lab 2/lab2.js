@@ -38,7 +38,7 @@ function askForAge() {
 ////функция принимает один параметр
 
 function doubleFactorial(x) {
-    if (isNaN(x)) {
+    if (isNaN(x) || x <= 0) {
         return null;
     }
     var answer = 1;

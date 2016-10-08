@@ -33,12 +33,17 @@ $$Q.module("lab2",{
 				  assert.strictEqual( askForAge(), "Возраст не определен", "user's input : hello" );
 				  promptStub.withArgs("Введите ваш возраст").returns('');
 				  assert.strictEqual( askForAge(), "Возраст не определен", "user's input : \[nothing\]" );
+				  promptStub.withArgs("Введите ваш возраст").returns(0);
+				  assert.strictEqual( askForAge(), "до 18", "user's input : 0" );
 				});
 				
 				QUnit.test( "doubleFactorial Test", function( assert ) {
-					assert.strictEqual( doubleFactorial(10), 3840, "doubleFactorial(10)" );
-					assert.strictEqual( doubleFactorial(5), 15, "doubleFactorial(10)" );
-					assert.strictEqual( doubleFactorial("str"), null, "doubleFactorial(\"str\")" );
+					assert.strictEqual( doubleFactorial(10), 3840, "doubleFactorial(10) must be 3840" );
+					assert.strictEqual( doubleFactorial(5), 15, "doubleFactorial(5) must be 15" );
+					assert.strictEqual( doubleFactorial("str"), null, "doubleFactorial(\"str\") must be null" );
+					assert.strictEqual( doubleFactorial(0), null, "doubleFactorial(0) must be null" );
+					assert.strictEqual( doubleFactorial(-1), null, "doubleFactorial(-1) must be null" );
+					
 				});
 				
 				QUnit.test( "getCharCount Test", function( assert ) {
@@ -68,8 +73,8 @@ $$Q.module("lab2",{
 				})
 				
 				QUnit.test("isNuneric Test", function(assert){
-					var inputs = [1,"qwerrt","10px",true, null,undefined,{},{id:5, toString:function(){return "{id:5}"}},10,0,-1];
-					var results = [true, false, false,false,false,false,false,false,true,true,true];
+					var inputs = [1,"qwerrt","10px",true, null,undefined,{},{id:5, toString:function(){return "{id:5}"}},10,0,-1,15.2];
+					var results = [true, false, false,false,false,false,false,false,true,true,true, true];
 					
 					inputs.forEach(function(item,i){
 						assert.strictEqual(isNumeric(item),results[i],"isNuneric("+(typeof item === "string" ? "\""+item+"\"" : item) +") must be " +  (typeof results[i] === "string" ? "\""+results[i]+"\"" : results[i]));

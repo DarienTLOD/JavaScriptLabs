@@ -5,7 +5,7 @@
 
 function getType(operand) {
     if (operand === null) return "null";
-    else return typeof operand;
+    return typeof operand;
 }
 
 //2
@@ -113,7 +113,7 @@ function getDecimal(num) {
     var str = "" + num;
     var zeroPos = str.indexOf(".");
 
-    if (zeroPos == -1) return 0;
+    if (zeroPos === -1) return 0;
     str = str.slice(zeroPos);
 
     return +str;
@@ -134,7 +134,7 @@ function fibonachi(n) {
         a = b;
         i = b = c;
 
-        if (result.length == 0)
+        if (result.length === 0)
             result = "1" + "," + a;
         else
             result += "," + a;
@@ -155,7 +155,7 @@ function changeCase(param) {
 
     var len = sourceStr.length;
     for (var i = 0; i < len; i++) {
-        if (sourceStr[i] == sourceStr[i].toLowerCase())
+        if (sourceStr[i] === sourceStr[i].toLowerCase())
             result += sourceStr[i].toUpperCase();
         else
             result += sourceStr[i].toLowerCase();
@@ -198,11 +198,11 @@ function contains(str, subStr) {
 
 function substringCount(str, subStr) {
     if (str === "" || subStr === "") return 0;
-    var pos = str.indexOf(subStr[0]);
+    var pos = str.indexOf(subStr);
     var count = 0;
     while (pos != -1) {
         count++;
-        pos = str.indexOf(subStr[0], pos + 1);
+        pos = str.indexOf(subStr, pos + 1);
     }
     return count;
 }
@@ -215,9 +215,8 @@ function substringCount(str, subStr) {
 function compare(firstStr, secondStr, flag) {
     if (!flag) {
         return firstStr.toLowerCase() === secondStr.toLowerCase();
-    } else {
-        return firstStr === secondStr;
     }
+    return firstStr === secondStr;    
 }
 
 //15
@@ -231,8 +230,7 @@ function compare(firstStr, secondStr, flag) {
 function truncate(str, maxlength) {
     if (str.length < maxlength) {
         return str;
-    } else {
-        var slicedStr = str.slice(0, maxlength - 3);
-        return slicedStr + "...";
     }
+    
+    return str.slice(0, maxlength - 3) + "..."; 
 }

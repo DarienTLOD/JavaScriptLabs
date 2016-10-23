@@ -20,10 +20,7 @@ var lab3 = {
 ////в противном случае функция возвращает false
 
 function checkProp(obj, propertyName) {
-    if (obj[propertyName] !== undefined) {
-            return obj[propertyName];
-    }
-    return false;
+    return obj[propertyName] !== undefined ? obj[propertyName] : false;
 }
 
 //3
@@ -34,13 +31,12 @@ function checkProp(obj, propertyName) {
 
 lab3.getAllProperties = function(obj) {
     var properties = [];
-    
+
     for (var prop in obj) {
         properties.push(prop);
     }
-    properties.sort();
-    
-    return properties.join(", ");
+
+    return properties.sort().join(", ");
 }
 
 //4
@@ -49,13 +45,7 @@ lab3.getAllProperties = function(obj) {
 ////и возвращает его клона.
 
 lab3['clone object'] = function(obj) {
-    var clone = {};
-    
-    for (var key in obj) {
-       clone[key] = obj[key];
-    }
-    
-    return clone;
+    return JSON.parse(JSON.stringify(obj));
 }
 
 //5
@@ -68,7 +58,7 @@ function addToBeginingOfArray(arg, array) {
     if (typeof array === 'undefined') {
         var array = [];
     }
-    
+
     array.unshift(arg);
 
     return array;
@@ -81,7 +71,7 @@ function addToBeginingOfArray(arg, array) {
 function getLastElement(arr) {
     if (typeof arr !== 'undefined') {
         return arr.pop();
-    }	
+    }
 }
 
 //7
@@ -91,7 +81,7 @@ function getLastElement(arr) {
 function getFirstElement(arr) {
     if (arr !== undefined) {
         return arr.shift();
-    }	
+    }
 }
 
 //8
@@ -103,16 +93,16 @@ function getFirstElement(arr) {
 function addToEndOfArray() {
     var i = 0;
     var array = [];
-    
-    if  (typeof arguments[0] === 'object') {
-        i = 1; 
+
+    if (typeof arguments[0] === 'object') {
+        i = 1;
         array = arguments[0];
     }
 
     for (i; i < arguments.length; i++) {
         array.push(arguments[i]);
     }
-    
+
     return array;
 }
 
@@ -123,10 +113,7 @@ function addToEndOfArray() {
 ////В проитвном случае функция возвращает длину массива
 
 function setSize(arr, num) {
-    if (parseInt(num) >= 0 && parseInt(num) < arr.length) {
-        return arr.length = num;
-    }
-    return arr.length;
+    return parseInt(num) >= 0 && parseInt(num) < arr.length ? arr.length = num : arr.length;
 }
 
 //10
@@ -138,10 +125,9 @@ function setSize(arr, num) {
 
 function remove3(string) {
     var array = string.split(' ');
-    
-    array.sort();
-    array.splice(2,3);
-    
+
+    array.sort().splice(2, 3);
+
     return array;
 }
 
@@ -163,13 +149,13 @@ function sortCars(arr) {
 ////Разработайте функцию updateCase, которая принимает массив объектов car 
 ////с тремя полями brand - марка автомобиля, model - модель, year - год выпуска
 ////не используя операторов цикла функция заменяет регистр всех строковых полей на верхний
- 
- function updateCase(array) {
-    array.forEach(function (element) {
+
+function updateCase(array) {
+    array.forEach(function(element) {
         element.brand = element.brand.toUpperCase();
         element.model = element.model.toUpperCase();
     });
-} 
+}
 
 //13
 ////Разработайте функцию getCarsMadeAfter, которая принимает массив объектов car 
@@ -180,16 +166,16 @@ function sortCars(arr) {
 ////Элементы в итоговом массиве не повторяются
 ////Массив отсортирован по алфавиту
 
-function getCarsNewerThan(arr, yearmin) {
+function getCarsNewerThan(arr, yearMin) {
     var brands = [];
 
     arr.forEach(function(car) {
-        if(car.year > yearmin && brands.indexOf(car.brand) < 0) {           
+        if (car.year > yearMin && brands.indexOf(car.brand) < 0) {
             brands.push(car.brand);
-        }         
+        }
     });
-    
-    return brands.sort();    
+
+    return brands.sort();
 }
 
 //14
@@ -197,16 +183,15 @@ function getCarsNewerThan(arr, yearmin) {
 ////и не используя циклы проверяет отсортирован массив по алфавиту или нет
 ////если отсортирован функция возвращает true, иначе false
 
-function checkSort(arr){
+function checkSort(arr) {
     var result = true;
-    var temp = "";
-    
-    arr.forEach(function(element) {
-        if (temp > element) {
+
+    arr.reduce(function(previous, currentItem) {
+        if (previous > currentItem) {
             result = false;
         }
-        temp = element;
-    });
+        return currentItem;
+    }, 0);
 
     return result;
 }
@@ -220,15 +205,9 @@ function checkSort(arr){
 ////функция не использует циклы
 
 function contain(arr, car) {
-    var result = false;
-    
-    arr.forEach(function(element) {
-        if(car.brand === element.brand && car.model === element.model && car.year === element.year) {
-            result = true;
-        }
+    return arr.some(function(element) {
+        return car.brand === element.brand && car.model === element.model && car.year === element.year;
     });
-
-    return result;
 }
 
 //16
@@ -239,13 +218,10 @@ function contain(arr, car) {
 ////(new Date()).getFullYear()
 
 function getAvgAge(arr) {
-    var sum = 0;
-    var count = 0;
-    
-    arr.forEach(function(element) {
-        sum += (new Date()).getFullYear() - element.year;
-        count++;
-    });
-    
-    return parseInt(sum/count);
+
+    var result = arr.reduce(function(sum, currentItem) {
+        return sum += (new Date()).getFullYear() - currentItem.year;
+    }, 0);
+
+    return Math.round(result / arr.length);
 }

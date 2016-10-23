@@ -1,4 +1,5 @@
 'use strict'
+
 //1
 ////Создайте объект lab3, у которого есть следующие свойства:
 ////id -- номер вашей бригады
@@ -7,11 +8,10 @@
 ////teacher - полное ФИО преподавателя.
 
 var lab3 = {
-	id: 4,
-	students: ["Соболь Елена", "Игнатюк Вероника"],
-	teacher: "Безручко Алексей Николаевич"
+    id: 1,
+    students: ["Курчевский Алексей", "Васильев Александр"],
+    teacher: "Безручко Алексей Николаевич"
 }
-
 
 //2
 ////Разработайте функцию checkProp, которая принимает в качестве параметров
@@ -19,42 +19,20 @@ var lab3 = {
 ////если объект содержит указанное свойство, то функция возвращает значение этого свойства
 ////в противном случае функция возвращает false
 
-function checkProp(obj, propertyName){
-if (obj[propertyName]!== undefined){
-		return obj[propertyName];
-	}
-	return false;
+function checkProp(obj, propertyName) {
+    if (obj[propertyName] !== undefined) {
+            return obj[propertyName];
+    }
+    return false;
 }
 
-
-// !!!! НЕ СДЕЛАЛА :(
 //3
 ////Добавьте в объект lab3 метод getAllProperties
 ////который принимает объект
 ////и возвращает строку, которая содержит имена всех свойств этого
 ////объекта записанные через ', ' в алфавитном порядке
-/*
-function compareNumeric(a, b) {
-  if (a > b) return 1;
-  if (a < b) return -1;
-}
 
-lab3.getAllProperties = function(obj){
-	var result = "";
-	for (var i in obj) {
-		
-					var mass = [i];
-			result += ', ' + i;
-		//	lab3.sort(compareNumeric);
-		
-	}
-	
-	
-	return result;
-}
-*/
-
-lab3.getAllProperties = function(obj){
+lab3.getAllProperties = function(obj) {
     var properties = [];
     
     for (var prop in obj) {
@@ -65,20 +43,20 @@ lab3.getAllProperties = function(obj){
     return properties.join(", ");
 }
 
-
 //4
 ////Добавьте в объект lab3 метод clone object
 ////который принимает объект
 ////и возвращает его клона.
 
-lab3['clone object'] = function(obj){
-	var clone = {}; // новый пустой объект
-	// скопируем в него все свойства obj
-	for (var key in obj) {
-	   clone[key] = obj[key];
-	}
-	return clone;
-	}
+lab3['clone object'] = function(obj) {
+    var clone = {};
+    
+    for (var key in obj) {
+       clone[key] = obj[key];
+    }
+    
+    return clone;
+}
 
 //5
 ////Разработайте функцию addToBeginingOfArray которая принимает два аргумента. второй аргумент массив.
@@ -86,35 +64,35 @@ lab3['clone object'] = function(obj){
 ////если массив не указан, то функция создает новый пустой массив и добавляет в него элемент.
 ////функция возвращает полученный массив.
 
-function addToBeginingOfArray(arg, array){
-	if (typeof array == 'undefined'){
-		var array = [];
-	}
-	array.unshift(arg);
-	return array;
-}
+function addToBeginingOfArray(arg, array) {
+    if (typeof array === 'undefined') {
+        var array = [];
+    }
+    
+    array.unshift(arg);
 
+    return array;
+}
 
 //6
 ////Разработайте функцию getLastElement которая принимает массив.
 ////функция возвращает последний элемент, удаляя его из массива
 
-function getLastElement(arr){
-	if (typeof arr != 'undefined') 
-	return arr.pop();
+function getLastElement(arr) {
+    if (typeof arr !== 'undefined') {
+        return arr.pop();
+    }	
 }
-
 
 //7
 ////Разработайте функцию getFirstElement которая принимает массив.
 ////функция возвращает первый элемент, удаляя его из массива
 
-function getFirstElement(arr){
-	if (arr !== undefined) 
-	return arr.shift();
+function getFirstElement(arr) {
+    if (arr !== undefined) {
+        return arr.shift();
+    }	
 }
-
-
 
 //8
 ////Разработайте функцию addToEndOfArray которая принимает любое количество аргументов.
@@ -122,34 +100,21 @@ function getFirstElement(arr){
 ////Если первый аргумент не массив, то все аргументы функции добавляются в новый массив
 ////функция возвращает полученный массив.
 
-function addToEndOfArray(){
-	var i = 0;
-	var array = [];
-		if  (typeof arguments[0] == 'object'){
-			i = 1; 
-			array = arguments[0];
-		}
+function addToEndOfArray() {
+    var i = 0;
+    var array = [];
+    
+    if  (typeof arguments[0] === 'object') {
+        i = 1; 
+        array = arguments[0];
+    }
 
-		for (i; i < arguments.length; i++) {
-			array.push(arguments[i]);
-		}
-		return  array;
+    for (i; i < arguments.length; i++) {
+        array.push(arguments[i]);
+    }
+    
+    return array;
 }
-
-	/*
-	if  (typeof arguments[0] == 'object'){
-		 for (var i = 1; i < arguments.length; i++) {
-			 arguments[0].push(arguments[i]);
-		 }
-		 return  arguments[0];
-	}
-		var array = [];
-		for (var i = 0; i < arguments.length; i++) {
-		array.push(arguments[i]);
-	}
-		return  array;
-		
-		*/
 
 //9
 ////Разработайте функцию setSize, которая принимает массив в качеств первого аргумента
@@ -157,13 +122,12 @@ function addToEndOfArray(){
 ////то функция укорачивает массив до указанной длины.
 ////В проитвном случае функция возвращает длину массива
 
-function setSize(arr, num){
-	if (parseInt(num) >= 0 && parseInt(num) < arr.length){
-		return arr.length = num;
-	}
-	return arr.length;
+function setSize(arr, num) {
+    if (parseInt(num) >= 0 && parseInt(num) < arr.length) {
+        return arr.length = num;
+    }
+    return arr.length;
 }
-
 
 //10
 ////Разработайте функцию remove3, которая принимает строку
@@ -172,13 +136,14 @@ function setSize(arr, num){
 ////иставшиеся слова возвращаются в отсортированном по алфавиту массиве.
 ////слова в строке разделяются пробелом.
 
-function remove3(string){
-	var array = string.split(' ');
-	array.sort();
-	array.splice(2,3);
-	return array;
+function remove3(string) {
+    var array = string.split(' ');
+    
+    array.sort();
+    array.splice(2,3);
+    
+    return array;
 }
-
 
 //11
 ////Разработайте функцию sortCars, которая принимает массив объектов car 
@@ -187,6 +152,7 @@ function remove3(string){
 ////если марки одинаковые, то по модели (по алфавиту),
 ////Если модели совпадают, то по убавынию года выпуска 
 ////функция sort у массива должна быть вызвана только один раз
+
 function sortCars(arr) {
     arr.sort(function(a, b) {
         return (a.brand > b.brand) - (b.brand > a.brand) || (a.model > b.model) - (b.model > a.model) || (a.year > b.year) - (b.year > a.year);
@@ -198,13 +164,12 @@ function sortCars(arr) {
 ////с тремя полями brand - марка автомобиля, model - модель, year - год выпуска
 ////не используя операторов цикла функция заменяет регистр всех строковых полей на верхний
  
- function updateCase(array){
-	array.forEach(function (element) {
-		element.brand = element.brand.toUpperCase();
-		element.model = element.model.toUpperCase();
-	});
- }
- 
+ function updateCase(array) {
+    array.forEach(function (element) {
+        element.brand = element.brand.toUpperCase();
+        element.model = element.model.toUpperCase();
+    });
+} 
 
 //13
 ////Разработайте функцию getCarsMadeAfter, которая принимает массив объектов car 
@@ -214,13 +179,16 @@ function sortCars(arr) {
 ////автомобилей, которые были выпущены позже указанного года.
 ////Элементы в итоговом массиве не повторяются
 ////Массив отсортирован по алфавиту
+
 function getCarsNewerThan(arr, yearmin) {
     var brands = [];
+
     arr.forEach(function(car) {
-       if(car.year > yearmin && brands.indexOf(car.brand) < 0) {           
-           brands.push(car.brand);
-       }         
+        if(car.year > yearmin && brands.indexOf(car.brand) < 0) {           
+            brands.push(car.brand);
+        }         
     });
+    
     return brands.sort();    
 }
 
@@ -230,26 +198,18 @@ function getCarsNewerThan(arr, yearmin) {
 ////если отсортирован функция возвращает true, иначе false
 
 function checkSort(arr){
-	var result = true;
-	var temp = "";
-	arr.forEach(function(element) {
-		if (temp > element){
-			result = false;
-		}
-		temp = element;
-	});
+    var result = true;
+    var temp = "";
+    
+    arr.forEach(function(element) {
+        if (temp > element) {
+            result = false;
+        }
+        temp = element;
+    });
 
-	return result;
+    return result;
 }
-
-/*for (var i = 0; i < arr.length - 1; i++) {
-    if (arr[i] > arr[i+1]) {
-        return false;
-       
-    }
-}
-
-	return true;*/
 
 //15
 ////Разработайте функцию contain, которая принимает массив объектов car 
@@ -259,19 +219,18 @@ function checkSort(arr){
 ////иначе false
 ////функция не использует циклы
 
-function contain(arr, car){
-	var result = false;
-	arr.forEach(function(element){
-		if(car.brand === element.brand && car.model ===element.model && car.year === element.year) {
-			result = true;
-		}
-	});
-		
-	return result;
+function contain(arr, car) {
+    var result = false;
+    
+    arr.forEach(function(element) {
+        if(car.brand === element.brand && car.model === element.model && car.year === element.year) {
+            result = true;
+        }
+    });
+
+    return result;
 }
 
-
-//???????????????????????
 //16
 ////Разработайте функцию getAvgAge, которая принимает массив объектов car 
 ////с тремя полями brand - марка автомобиля, model - модель, year - год выпуска
@@ -279,27 +238,14 @@ function contain(arr, car){
 ////для получения текущего года использовать конструкцию:
 ////(new Date()).getFullYear()
 
-function getAvgAge(arr){
-	var sum = 0;
-	//var avg = 0;
-	var count = 0;
-	arr.forEach(function(element) {
-		sum += (new Date()).getFullYear() - element.year;
-		count++;
-	});
-	return parseInt(sum/count);
-	//avg = parseInt(sum/count);
-	//return avg;
+function getAvgAge(arr) {
+    var sum = 0;
+    var count = 0;
+    
+    arr.forEach(function(element) {
+        sum += (new Date()).getFullYear() - element.year;
+        count++;
+    });
+    
+    return parseInt(sum/count);
 }
-
-
-
-
-
-
-
-
-
-
-
-

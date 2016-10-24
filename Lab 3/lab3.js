@@ -20,7 +20,7 @@ var lab3 = {
 ////в противном случае функция возвращает false
 
 function checkProp(obj, propertyName) {
-    return obj[propertyName] !== undefined ? obj[propertyName] : false;
+    return obj[propertyName] ? obj[propertyName] : false;
 }
 
 //3
@@ -45,7 +45,7 @@ lab3.getAllProperties = function(obj) {
 ////и возвращает его клона.
 
 lab3['clone object'] = function(obj) {
-    return JSON.parse(JSON.stringify(obj));
+    return JSON.parse(JSON.stringify(obj));     //it's better no to use JSON methods
 }
 
 //5
@@ -55,7 +55,7 @@ lab3['clone object'] = function(obj) {
 ////функция возвращает полученный массив.
 
 function addToBeginingOfArray(arg, array) {
-    if (typeof array === 'undefined') {
+    if (!array) {
         var array = [];
     }
 
@@ -69,19 +69,15 @@ function addToBeginingOfArray(arg, array) {
 ////функция возвращает последний элемент, удаляя его из массива
 
 function getLastElement(arr) {
-    if (typeof arr !== 'undefined') {
-        return arr.pop();
-    }
+    return (arr || []).pop();     
 }
 
 //7
 ////Разработайте функцию getFirstElement которая принимает массив.
 ////функция возвращает первый элемент, удаляя его из массива
 
-function getFirstElement(arr) {
-    if (arr !== undefined) {
-        return arr.shift();
-    }
+function getFirstElement(arr) {   
+    return (arr || []).shift();    
 }
 
 //8
@@ -94,7 +90,7 @@ function addToEndOfArray() {
     var i = 0;
     var array = [];
 
-    if (typeof arguments[0] === 'object') {
+    if (Array.isArray(arguments[0])) {
         i = 1;
         array = arguments[0];
     }
@@ -113,7 +109,8 @@ function addToEndOfArray() {
 ////В проитвном случае функция возвращает длину массива
 
 function setSize(arr, num) {
-    return parseInt(num) >= 0 && parseInt(num) < arr.length ? arr.length = num : arr.length;
+    //it could be more readable and easier to debug without ternary operation
+    return parseInt(num) >= 0 && parseInt(num) < arr.length ? arr.length = num : arr.length; 
 }
 
 //10
@@ -140,8 +137,11 @@ function remove3(string) {
 ////функция sort у массива должна быть вызвана только один раз
 
 function sortCars(arr) {
+    //style fix
     arr.sort(function(a, b) {
-        return (a.brand > b.brand) - (b.brand > a.brand) || (a.model > b.model) - (b.model > a.model) || (a.year > b.year) - (b.year > a.year);
+        return (a.brand > b.brand) - (b.brand > a.brand)
+            || (a.model > b.model) - (b.model > a.model) 
+            || (a.year > b.year) - (b.year > a.year);
     });
 }
 
@@ -168,7 +168,8 @@ function updateCase(array) {
 
 function getCarsNewerThan(arr, yearMin) {
     var brands = [];
-
+    
+    //use filter and map as alternative. But forEach is also applicable.
     arr.forEach(function(car) {
         if (car.year > yearMin && brands.indexOf(car.brand) < 0) {
             brands.push(car.brand);
@@ -185,14 +186,15 @@ function getCarsNewerThan(arr, yearMin) {
 
 function checkSort(arr) {
     var result = true;
-
+    
+    //seems it could be refactored to use "every" instead of "reduce"
+    //but i have no fucking idea how
     arr.reduce(function(previous, currentItem) {
         if (previous > currentItem) {
             result = false;
         }
         return currentItem;
     }, 0);
-
     return result;
 }
 
@@ -205,8 +207,11 @@ function checkSort(arr) {
 ////функция не использует циклы
 
 function contain(arr, car) {
+    //style fix
     return arr.some(function(element) {
-        return car.brand === element.brand && car.model === element.model && car.year === element.year;
+        return car.brand === element.brand 
+            && car.model === element.model 
+            && car.year === element.year;
     });
 }
 
@@ -218,9 +223,10 @@ function contain(arr, car) {
 ////(new Date()).getFullYear()
 
 function getAvgAge(arr) {
+    var currentYear = (new Date()).getFullYear();
 
     var result = arr.reduce(function(sum, currentItem) {
-        return sum += (new Date()).getFullYear() - currentItem.year;
+        return sum += currentYear - currentItem.year;
     }, 0);
 
     return Math.round(result / arr.length);

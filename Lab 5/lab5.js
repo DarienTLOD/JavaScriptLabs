@@ -13,6 +13,11 @@
 
 //разработайте пример использования
 
+function CustomArray() {
+    for (var i = 0; i < arguments.length; i++) this[i] = arguments[i];
+    this.length = i;
+}
+
 //2
 ////Необходимо создать модуль, который используя функциональный стиль описывает класс TypedArray
 ////Класс является наследником от класса CustomArray, и используется для создания псевдомассивов, клоторые содержат только элементы определенного типа.
@@ -68,9 +73,3 @@
 //	$A.map(arguments, function(item,i, array){})
 //	$A(arguments).map(function(item,i, array){})
 //}
-
-
-
-
-
-

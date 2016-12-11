@@ -16,6 +16,99 @@
 function CustomArray() {
     for (var i = 0; i < arguments.length; i++) this[i] = arguments[i];
     this.length = i;
+    var self = this;
+
+    function deleteItems(startIndex, count) {
+        var result = new CustomArray();
+        var i, j;
+
+        if (startIndex < 0) {
+            for (i = Math.abs(count); i !== 0; i--) {
+                result[i] = self[self.length + startIndex];
+                delete self[self.length + startIndex];
+                self.length--;
+                result.length++;
+            }
+        } else if (startIndex >= 0) {
+            for (i = count, j = 0; i !== 0; i--, j++) {
+                result[j] = self[startIndex + j];
+                delete self[startIndex + j];
+                self.length--;
+                result.length++;
+            }
+        }
+        return result;
+    }
+
+    this.pop = function() {
+        return deleteItems(-1, 1);
+    };
+
+    this.unshift = function() {
+        return deleteItems(0, 1);
+    };
+
+    this.push = function() {
+        for (var i = 0; i < arguments.length; i++) {
+            this[this.length + 1] = arguments[i];
+            this.length++;
+        }
+    };
+
+    this.indexOf = function(value) {
+        var i;
+
+        for (i = 0; this.length > i; i++) {
+            if (this[i] === value) return i;
+        }
+
+        return -1;
+    };
+
+    this.lastIndexOf = function(value) {
+        var i;
+
+        for (i = this.length; i !== -1; i--) {
+            if (this[i] === value) return i;
+        }
+
+        return -1;
+    };
+
+    this.includes = function(value) {
+        var i;
+
+        for (i = 0; this.length > i; i++) {
+            if (this[i] === value) return true;
+        }
+
+        return false;
+    };
+
+    this.sort = function() {
+        if (this.length === 0) return this;
+        var a = new CustomArray(),
+            b = new CustomArray(),
+            p = this[0];
+        for (var i = 1; i < this.length; i++) {
+            if (this[i] < p) a[a.length] = this[i];
+            else b[b.length] = this[i];
+        }
+        return this.QuickSort(a).concat(p, this.QuickSort(b));
+
+    };
+
+    // this.splice = function() {
+    //     if (!isNumeric(arguments[0]) || !isNumeric(arguments[1]) {
+    //             alert()
+    //         }
+    //         var result = this[this.length - 1]; delete this[this.length - 1]; this.length--;
+    //         return result;
+    //     };
+
+    //     function isNumeric(number) {
+    //         return !isNaN(parseFloat(number)) && isFinite(number);
+    //     }
 }
 
 //2

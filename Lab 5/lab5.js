@@ -20,7 +20,7 @@ function CustomArray() {
 
 
     function insertItems(startIndex) {
-        var count = arguments[1].length || 1;
+        var count = arguments[1].length;
         var items = arguments[1];
         var newLength = self.length + count;
         var countToMove = 0;
@@ -76,10 +76,8 @@ function CustomArray() {
     };
 
     this.push = function() {
-        for (var i = 0; i < arguments.length; i++) {
-            this[this.length + 1] = arguments[i];
-            this.length++;
-        }
+        insertItems(this.length, arguments);
+        return this.length;
     };
 
     this.indexOf = function(value) {
@@ -125,13 +123,29 @@ function CustomArray() {
 
     };
     
-//    this.concat = function() {
-//        var newArray = new CustomArray(this);
-//        var argLen = arguments.length;
-//        for(i = 0; i < argLen; i++) {
-//            insertItems(this.length, arguments[i]);
-//        }
-//    }
+    this.concat = function() {
+        var i, j;
+        
+        var newArray = new CustomArray();        
+        for(i = 0; i < this.length; i++) {
+            newArray.push(this[i]);
+        }
+        
+        var argLen = arguments.length;
+        for(i = 0; i < argLen; i++) {
+            if(Array.isArray(arguments[i])) {
+                var argItems = arguments[i];
+                var argItemsLen = arguments[i].length;                
+                for(j = 0; j < argItemsLen; j++) {
+                    newArray.push(argItems[j]);
+                } 
+            } else {
+                newArray.push(arguments[i]);
+            }
+        }
+        
+        return newArray;
+    }
 
     // this.splice = function() {
     //     if (!isNumeric(arguments[0]) || !isNumeric(arguments[1]) {

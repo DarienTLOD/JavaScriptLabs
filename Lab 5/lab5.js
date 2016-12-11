@@ -1,4 +1,4 @@
-﻿'use strict'
+'use strict'
 //1
 ////Необходимо создать модуль, который используя функциональный стиль описывает класс CustomArray
 ////Конструктор может принимать неограниченное количество параметров, которые будут добавлены как элементы созданного псевдомассива
@@ -16,6 +16,29 @@
 function CustomArray() {
     for (var i = 0; i < arguments.length; i++) this[i] = arguments[i];
     this.length = i;
+    
+     
+    this.insertItems = function(startIndex) {
+        var count = arguments[1].length;
+        var items = arguments[1];
+        var newLength = this.length + count;
+        var countToMove = 0;
+        
+        if(startIndex <= this.length - 1) {
+            countToMove = this.length - startIndex;
+        }
+        
+        for(var i = countToMove, j = 0; i > 0; j++, i--) {
+            this[newLength - 1 - j] = this[this.length - 1 - j];            
+        }
+        
+        for(var i = 0; i < count; i++) {
+            this[startIndex + i] = items[i];
+        }
+        
+        this.length = newLength;
+    }
+    
 }
 
 //2

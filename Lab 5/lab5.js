@@ -20,7 +20,7 @@ function CustomArray() {
 
 
     function insertItems(startIndex) {
-        var count = arguments[1].length;
+        var count = arguments[1].length || 1;
         var items = arguments[1];
         var newLength = self.length + count;
         var countToMove = 0;
@@ -66,6 +66,10 @@ function CustomArray() {
     this.pop = function() {
         return deleteItems(-1, 1);
     };
+    
+    this.shift = function() {
+        insertItems(0, arguments);
+    }
 
     this.unshift = function() {
         return deleteItems(0, 1);
@@ -120,6 +124,14 @@ function CustomArray() {
         return this.QuickSort(a).concat(p, this.QuickSort(b));
 
     };
+    
+//    this.concat = function() {
+//        var newArray = new CustomArray(this);
+//        var argLen = arguments.length;
+//        for(i = 0; i < argLen; i++) {
+//            insertItems(this.length, arguments[i]);
+//        }
+//    }
 
     // this.splice = function() {
     //     if (!isNumeric(arguments[0]) || !isNumeric(arguments[1]) {

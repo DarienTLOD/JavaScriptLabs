@@ -66,16 +66,18 @@ function CustomArray() {
     this.pop = function() {
         return deleteItems(-1, 1);
     };
+    
+    this.shift = function() {
+        insertItems(0, arguments);
+    }
 
     this.unshift = function() {
         return deleteItems(0, 1);
     };
 
     this.push = function() {
-        for (var i = 0; i < arguments.length; i++) {
-            this[this.length + 1] = arguments[i];
-            this.length++;
-        }
+        insertItems(this.length, arguments);
+        return this.length;
     };
 
     this.indexOf = function(value) {
@@ -120,6 +122,30 @@ function CustomArray() {
         return this.QuickSort(a).concat(p, this.QuickSort(b));
 
     };
+    
+    this.concat = function() {
+        var i, j;
+        
+        var newArray = new CustomArray();        
+        for(i = 0; i < this.length; i++) {
+            newArray.push(this[i]);
+        }
+        
+        var argLen = arguments.length;
+        for(i = 0; i < argLen; i++) {
+            if(Array.isArray(arguments[i])) {
+                var argItems = arguments[i];
+                var argItemsLen = arguments[i].length;                
+                for(j = 0; j < argItemsLen; j++) {
+                    newArray.push(argItems[j]);
+                } 
+            } else {
+                newArray.push(arguments[i]);
+            }
+        }
+        
+        return newArray;
+    }
 
     // this.splice = function() {
     //     if (!isNumeric(arguments[0]) || !isNumeric(arguments[1]) {

@@ -17,12 +17,9 @@ function createStore() {
     function store(arg) {
         if (!isNaN(parseFloat(arg)) && isFinite(arg)) {
             storeHolder += arg;
-
-            return storeHolder;
         }
         return storeHolder;
     }
-
     return store;
 }
 
@@ -166,60 +163,11 @@ function Car(argumentString) {
         owner = new Person(ownerArgs[0], ownerArgs[1], ownerArgs[2]);
     }
 
-    Object.defineProperty(this, "brand", {
-
-        get: function() {
-            return brand;
-        },
-
-        set: function(value) {
-            brand = value;
-        }
-    });
-
-    Object.defineProperty(this, "model", {
-
-        get: function() {
-            return model;
-        },
-
-        set: function(value) {
-            model = value;
-        }
-    });
-
-    Object.defineProperty(this, "id", {
-
-        get: function() {
-            return id;
-        },
-
-        set: function(value) {
-            id = value;
-        }
-    });
-
-    Object.defineProperty(this, "driver", {
-
-        get: function() {
-            return driver;
-        },
-
-        set: function(value) {
-            driver = value;
-        }
-    });
-
-    Object.defineProperty(this, "owner", {
-
-        get: function() {
-            return owner;
-        },
-
-        set: function(value) {
-            owner = value;
-        }
-    });
+    Object.defineProperty(this, "brand", { writable: true });
+    Object.defineProperty(this, "model", { writable: true });
+    Object.defineProperty(this, "id", { writable: true });
+    Object.defineProperty(this, "driver", { writable: true });
+    Object.defineProperty(this, "owner", { writable: true });
 }
 
 //4 Разработайте класс Parking для создания объектов описывающих автостоянки.  
@@ -240,8 +188,9 @@ function Car(argumentString) {
 ////minTime -- минимальное время на стоянке среди автомобилей, которые сейчас на стоянке 
 ////avgTime -- среднее время на стоянке среди автомобилей, которые сейчас на стоянке 
 function ParkingInfo(idParam, adressParam, maxCountParam, rateParam, carCountParam, freePlacesParam) {
-    this.id = idParam;
-    this.adress = adressParam;
+
+    Object.defineProperty(this, "id", { value: idParam, writable: false });
+    Object.defineProperty(this, "address", { value: adressParam, writable: false });
     this.maxCount = maxCountParam;
     this.rate = rateParam;
     this.carCount = carCountParam;
@@ -256,28 +205,6 @@ function ParkingPlace(carParam, placeNumberParam) {
 
 function Parking(id, address, maxCount, rate) {
     var places = [];
-
-    Object.defineProperty(this, "id", {
-
-        get: function() {
-            return id;
-        },
-
-        set: function(value) {
-            id = value;
-        }
-    });
-
-    Object.defineProperty(this, "address", {
-
-        get: function() {
-            return address;
-        },
-
-        set: function(value) {
-            address = value;
-        }
-    });
 
     Object.defineProperty(this, "maxCount", {
 
@@ -309,16 +236,7 @@ function Parking(id, address, maxCount, rate) {
         }
     });
 
-    Object.defineProperty(this, "places", {
-
-        get: function() {
-            return places;
-        },
-
-        set: function(value) {
-            places = value;
-        }
-    });
+    Object.defineProperty(this, "places", { writable: false });
 
     this.carCount = function() {
         return places.reduce(function(result, item) {
@@ -400,13 +318,7 @@ function Parking(id, address, maxCount, rate) {
     };
 
     function getFreePlace() {
-        for (var i = 0; i < maxCount; i++) {
-            if (places[i] === undefined) {
-                return i;
-            }
-        }
-
-        return -2;
+        places.indexOf(undefined);
     }
 
     function getDetentionTime() {

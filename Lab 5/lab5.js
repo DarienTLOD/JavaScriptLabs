@@ -14,9 +14,15 @@
 //разработайте пример использования
 
 function CustomArray() {
+    this.length = 0;
     for (var i = 0; i < arguments.length; i++) this[i] = arguments[i];
     this.length = i;
     var self = this;
+
+    this.addRange = function() {
+        for (var i = self.length, j = 0; j < arguments[0].length; i++, j++) self[j] = arguments[0][i];
+        self.length = j;
+    };
 
 
     function insertItems(startIndex) {
@@ -44,40 +50,52 @@ function CustomArray() {
     function deleteItems(startIndex, count) {
         var result = new CustomArray();
         var i, j;
+        count = Math.abs(count);
 
         if (startIndex < 0) {
-            for (i = Math.abs(count); i !== 0; i--) {
-                result[i] = self[self.length + startIndex];
-                delete self[self.length + startIndex];
-                self.length--;
-                result.length++;
-            }
+            for (i = 0, j = count - 1; i < count; i++, j--)
+                result[j] = self[(self.length + startIndex) - i];
+            rewriteIndexes((self.length + startIndex) - i, count);
         } else if (startIndex >= 0) {
-            for (i = count, j = 0; i !== 0; i--, j++) {
+            for (i = count, j = 0; i !== 0; i--, j++)
                 result[j] = self[startIndex + j];
-                delete self[startIndex + j];
-                self.length--;
-                result.length++;
-            }
+            rewriteIndexes(startIndex - 1, count);
+
         }
+
+        for (var n = 0; n < count; n++) {
+            self.length--;
+            delete self[self.length];
+        }
+        result.length += count;
         return result;
     }
 
+    function rewriteIndexes(startIndex, count) {
+        for (var m = startIndex; m < self.length - (count - 1); m++) {
+            self[m + 1] = self[m + count + 1];
+        }
+    }
+
     this.pop = function() {
-        return deleteItems(-1, 1);
+        var result = self[self.length]
+        delete self[self.length];
+        self.length++;
+        return result;
     };
-    
+
+    this.push = function() {
+        self[self.length] = arguments[0];
+        self.length++;
+        return self.length;
+    };
+
     this.shift = function() {
         insertItems(0, arguments);
     }
 
     this.unshift = function() {
         return deleteItems(0, 1);
-    };
-
-    this.push = function() {
-        insertItems(this.length, arguments);
-        return this.length;
     };
 
     this.indexOf = function(value) {
@@ -110,54 +128,92 @@ function CustomArray() {
         return false;
     };
 
-    this.sort = function() {
-        if (this.length === 0) return this;
-        var a = new CustomArray(),
-            b = new CustomArray(),
-            p = this[0];
-        for (var i = 1; i < this.length; i++) {
-            if (this[i] < p) a[a.length] = this[i];
-            else b[b.length] = this[i];
-        }
-        return this.QuickSort(a).concat(p, this.QuickSort(b));
-
-    };
-    
     this.concat = function() {
         var i, j;
-        
-        var newArray = new CustomArray();        
-        for(i = 0; i < this.length; i++) {
-            newArray.push(this[i]);
+
+        var newArray = new CustomArray();
+        for (i = 0; i < self.length; i++) {
+            newArray.push(self[i]);
         }
-        
+
         var argLen = arguments.length;
-        for(i = 0; i < argLen; i++) {
-            if(Array.isArray(arguments[i])) {
+        for (i = 0; i < argLen; i++) {
+            if (arguments[i].length !== 0 & typeof(arguments[i]) !== String) {
                 var argItems = arguments[i];
-                var argItemsLen = arguments[i].length;                
-                for(j = 0; j < argItemsLen; j++) {
+                var argItemsLen = arguments[i].length;
+                for (j = 0; j < argItemsLen; j++) {
                     newArray.push(argItems[j]);
-                } 
+                }
             } else {
                 newArray.push(arguments[i]);
             }
         }
-        
+
         return newArray;
+    };
+
+    this.sort = function() {
+        if (self.length === 0) return self;
+        var count = self.length - 1;
+        for (var i = 0; i < count; i++)
+            for (var j = 0; j < count - i; j++)
+                if (typeof arguments[0] === 'function') {
+                    if (!arguments[0](self[j], self[j + 1])) {
+                        var max = self[j];
+                        self[j] = self[j + 1];
+                        self[j + 1] = max;
+                    }
+                } else {
+                    if (self[j] > self[j + 1]) {
+                        var max = self[j];
+                        self[j] = self[j + 1];
+                        self[j + 1] = max;
+                    }
+                }
+        return self;
+    };
+
+    this.slice = function() {
+        var startIndex;
+        var endIndex;
+        var result = new CustomArray();
+        var i, j;
+
+        if (arguments[0] !== undefined && isNumeric(arguments[0])) startIndex = arguments[0];
+        else startIndex = 0;
+        if (arguments[1] !== undefined && isNumeric(arguments[1])) endIndex = arguments[1] - 1;
+        else endIndex = self.length;
+        if (startIndex < 0)
+            for (i = (self.length + startIndex), j = 0; i < self.length; i++, j++) {
+                result[j] = self[i];
+                result.length++;
+            }
+        if (startIndex >= 0)
+            for (i = startIndex, j = 0; i < endIndex; i++, j++) {
+                result[j] = self[i];
+                result.length++;
+            }
+        return result;
+    };
+
+    this.splice = function() {
+        if (!isNumeric(arguments[0]) || !isNumeric(arguments[1])) {
+            throw "Invalid argument!";
+        }
+        var result = deleteItems(arguments[0], arguments[1]);
+
+        var temp = new CustomArray();
+
+        for (var i = 2; i < arguments.length; i++) temp.push(arguments[i]);
+
+        if (arguments[0] < 0) insertItems((self.length + arguments[0]) + 1, temp);
+        else insertItems(arguments[0], temp);
+        return result;
+    };
+
+    function isNumeric(number) {
+        return !isNaN(parseFloat(number)) && isFinite(number);
     }
-
-    // this.splice = function() {
-    //     if (!isNumeric(arguments[0]) || !isNumeric(arguments[1]) {
-    //             alert()
-    //         }
-    //         var result = this[this.length - 1]; delete this[this.length - 1]; this.length--;
-    //         return result;
-    //     };
-
-    //     function isNumeric(number) {
-    //         return !isNaN(parseFloat(number)) && isFinite(number);
-    //     }
 }
 
 //2
